@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import HousingOffer, HousingRequest
 
-# Register your models here.
+admin.site.register(HousingOffer)
+admin.site.register(HousingRequest)
