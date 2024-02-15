@@ -13,7 +13,9 @@ export const offerListReducer = (state = { offers: [] }, action) => {
         case OFFER_LIST_SUCCESS:
             return {
                 loading: false,
-                offers: action.payload,
+                offers: action.payload.offers,
+                page: action.payload.page,
+                pages: action.payload.pages
             }
 
         case OFFER_LIST_FAIL:

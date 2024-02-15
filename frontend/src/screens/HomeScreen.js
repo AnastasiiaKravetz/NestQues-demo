@@ -9,30 +9,28 @@ import { listOffers } from '../actions/offerActions';
 function HomeScreen() {
   const dispatch = useDispatch();
   const offerList = useSelector(state => state.offerList);
-  const { loading, error, offers } = offerList;
+  const { loading, error, offers, page, pages } = offerList;
 
   useEffect(() => {
     dispatch(listOffers());
   }, [dispatch]);
-
+  console.log(offers)
   return (
     <div>
       <h1>Latest Offers</h1>
-      <Row>
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant='danger'>{error}</Message>
-        ) : offers && Object.keys(offers).length > 0 ? (
-          Object.keys(offers).map(key => (
-            <Col key={key} sm={12} md={6} lg={4} xl={3}>
-              <Offer offer={offers[key]} />
-            </Col>
-          ))
-        ) : (
-          <Message variant='info'>No offers available</Message>
-        )}
-      </Row>
+      {loading ? <Loader />
+                : error ? <Message variant='danger'>{error}</Message>
+                    :
+                    <div>
+                        <Row>
+                            {offers.map(offer => (
+                                <Col key={offer._id} sm={12} md={6} lg={4} xl={3}>
+                                    <Offer offer={offer} />
+                                </Col>
+                            ))}
+                        </Row>
+                    </div>
+            }
     </div>
   );
 }

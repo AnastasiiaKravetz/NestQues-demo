@@ -10,7 +10,7 @@ export const listOffers = () => async (dispatch) => {
     try {
         dispatch({ type: OFFER_LIST_REQUEST })
 
-        const { data } = await axios.get(`http://127.0.0.1:8000/api/housingoffers/`)
+        const { data } = await axios.get(`/api/housingoffers/`)
 
         dispatch({
             type: OFFER_LIST_SUCCESS,
