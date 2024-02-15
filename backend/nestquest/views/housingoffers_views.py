@@ -15,7 +15,7 @@ def getOffers(request):
         title__icontains=query) 
     
     page = request.query_params.get('page')
-    paginator = Paginator(offers, 2)
+    paginator = Paginator(offers, 10)
 
     try:
         offers = paginator.page(page)

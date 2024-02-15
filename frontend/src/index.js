@@ -6,7 +6,7 @@ import './bootstrap.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { createRoot } from 'react-dom'; 
+import { createRoot } from 'react-dom/client'; 
 
 createRoot(document.getElementById('root')).render( 
   <Provider store={store}>
