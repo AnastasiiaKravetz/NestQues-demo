@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import HousingOffer, HousingRequest
+from .models import HousingOffer, HousingRequest, Message
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class UserSerializer(serializers.ModelSerializer):
@@ -32,6 +32,12 @@ class HousingRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HousingRequest
+        fields = '__all__'
+
+class MessageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Message
         fields = '__all__'
 
 

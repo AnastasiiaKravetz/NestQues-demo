@@ -22,35 +22,26 @@ class HousingOffer(models.Model):
 
     def __str__(self):
         return self.title
+    
 
 class HousingRequest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    desired_location = models.CharField(max_length=100)
-    max_price = models.DecimalField(max_digits=10, decimal_places=2)
-    min_bedrooms = models.PositiveSmallIntegerField(default=1)
-    min_bathrooms = models.PositiveSmallIntegerField(default=1)
-    move_in_date = models.DateField(null=True, blank=True) 
-    is_furnished_desired = models.PositiveSmallIntegerField(choices=STATUS_CHOICES)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    housing_offer = models.ForeignKey(HousingOffer, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.title
-    
+    _id = models.AutoField(primary_key=True, editable=False)
 
-class Request(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests')
-    housing_offer = models.ForeignKey(HousingOffer, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Request from {self.sender.username} to {self.receiver.username} for {self.housing_offer.title}"
+        return f"Request from {self.user.username} for {self.housing_offer.title}"
+
+
 
 class Message(models.Model):
-    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='messages')
-    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    request = models.ForeignKey(HousingRequest, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
-        return f"Message from {self.sender.username} at {self.timestamp}"
+        return f"Message from {self.user.username} at {self.timestamp}"

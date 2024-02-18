@@ -60,17 +60,21 @@ def deleteOffer(request, pk):
 @api_view(['POST'])
 def createOffer(request):
     try:
+        data = request.data
         user = request.user
+
+        if 'title' not in data:
+            return Response("Title is required", status=status.HTTP_400_BAD_REQUEST)
 
         offer = HousingOffer.objects.create(
             user=user,
-            title='Sample Title',
-            price=0,  
-            location='Sample Location',
-            is_furnished=1,  
-            number_of_rooms=3,
-            is_pet_friendly=1,  
-            description=''
+            title=data['title'],
+            price=data.get('price', 0),
+            location=data.get('location'),
+            is_furnished=data.get('is_furnished', 0),
+            number_of_rooms=data.get('number_of_rooms', 0),
+            is_pet_friendly=data.get('is_pet_friendly', 0),
+            description=data.get('description', '')
         )
 
         serializer = HousingOfferSerializer(offer, many=False)
@@ -81,19 +85,20 @@ def createOffer(request):
 
 
 
+
 @api_view(['PUT'])
 def updateOffer(request, pk):
     try:
         data = request.data
         offer = HousingOffer.objects.get(_id=pk)
 
-        offer.title = data.get('title', offer.title)
-        offer.price = data.get('price', offer.price)
-        offer.is_furnished = data.get('is_furnished', offer.is_furnished)
-        offer.is_pet_friendly = data.get('is_pet_friendly', offer.is_pet_friendly)
-        offer.location = data.get('location', offer.location)
-        offer.number_of_rooms = data.get('number_of_rooms', offer.number_of_rooms)
-        offer.description = data.get('description', offer.description)
+        offer.title = data['title']
+        offer.price = data['price']
+        offer.is_furnished = data['is_furnished']
+        offer.is_pet_friendly = data['is_pet_friendly']
+        offer.location = data['location']
+        offer.number_of_rooms = data['number_of_rooms']
+        offer.description = data['description']
 
         offer.save()
 

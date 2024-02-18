@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/housingoffers/', include('nestquest.urls.housingoffers_urls')),
     path('api/users/', include('nestquest.urls.user_urls')),
     path('api/housingrequests/', include('nestquest.urls.housingrequests_urls')),
+    path('api/messages/', include('nestquest.urls.messages_urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
