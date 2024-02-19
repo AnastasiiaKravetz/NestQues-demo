@@ -9,7 +9,7 @@ import { listOffers } from '../actions/offerActions';
 function HomeScreen() {
   const dispatch = useDispatch();
   const offerList = useSelector(state => state.offerList);
-  const { loading, error, offers, page, pages } = offerList;
+  const { loading, error, offers } = offerList;
 
   useEffect(() => {
     dispatch(listOffers());

@@ -109,5 +109,15 @@ def updateOffer(request, pk):
     except Exception as e:
         return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def uploadImage(request):
+    data = request.data
 
+    offer_id = data['offer_id']
+    offer = HousingOffer.objects.get(_id=offer_id)
+
+    offer.image = request.FILES.get('image')
+    offer.save()
+
+    return Response('Image was uploaded')
 
