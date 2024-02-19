@@ -30,10 +30,10 @@ function Header() {
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profile</NavDropdown.Item>
                                     </LinkContainer>
-                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-                                    <LinkContainer to='/create'style={{ color: 'green'}}>
-                                        <Nav.Link >Make an offer</Nav.Link>
+                                    <LinkContainer to='/create'>
+                                        <NavDropdown.Item>Make an offer</NavDropdown.Item>
                                     </LinkContainer>
+                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                                 </NavDropdown>
                             ) : (
                                 <LinkContainer to='/login'>

@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-STATUS_CHOICES = (
-    (1, 'Yes'),
-    (2, 'No')
-)
 
 class HousingOffer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -15,8 +11,8 @@ class HousingOffer(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.CharField(max_length=255)  
     number_of_rooms = models.PositiveSmallIntegerField()   
-    is_furnished = models.PositiveSmallIntegerField(choices=STATUS_CHOICES)    
-    is_pet_friendly = models.PositiveSmallIntegerField(choices=STATUS_CHOICES) 
+    is_furnished = models.BooleanField()    
+    is_pet_friendly = models.BooleanField() 
     created_at = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 

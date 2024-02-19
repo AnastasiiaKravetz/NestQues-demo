@@ -12,10 +12,10 @@ def getOffers(request):
     query = request.query_params.get('keyword', '')
     
     offers = HousingOffer.objects.filter(
-        title__icontains=query) 
+        title__icontains=query).order_by('-created_at') 
     
     page = request.query_params.get('page')
-    paginator = Paginator(offers, 10)
+    paginator = Paginator(offers, 20)
 
     try:
         offers = paginator.page(page)
@@ -62,24 +62,26 @@ def createOffer(request):
     try:
         data = request.data
         user = request.user
-
+        print(user)
         if 'title' not in data:
             return Response("Title is required", status=status.HTTP_400_BAD_REQUEST)
 
         offer = HousingOffer.objects.create(
             user=user,
+            image= request.FILES.get('image'),
             title=data['title'],
-            price=data.get('price', 0),
-            location=data.get('location'),
-            is_furnished=data.get('is_furnished', 0),
-            number_of_rooms=data.get('number_of_rooms', 0),
-            is_pet_friendly=data.get('is_pet_friendly', 0),
-            description=data.get('description', '')
+            price=data['price'],
+            location=data['location'],
+            is_furnished=True if data['is_furnished'] == "true" else False,
+            number_of_rooms=data['number_of_rooms'],
+            is_pet_friendly=True if data['is_pet_friendly'] == "true" else False,
+            description=data['description']
         )
 
         serializer = HousingOfferSerializer(offer, many=False)
         return Response(serializer.data)
     except Exception as e:
+        print(e)
         return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 

@@ -16,7 +16,9 @@ function CreateScreen({match, history} ) {
     const [isPetFriendly, setIsPetFriendly] = useState(false)
     const [description, setDescription] = useState('')
     const [image, setImage] = useState(null)
+    const [file, setFile] = useState(null)
     const [uploading, setUploading] = useState(false)
+    const {userInfo}= useSelector(state => state.userLogin)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -32,49 +34,42 @@ function CreateScreen({match, history} ) {
     }, [dispatch, navigate, successCreate, createdOffer])
 
     
-    const handleImageChange = async (e) => {
-        const file = e.target.files[0]
-        const formData = new FormData()
-
-        formData.append('image', file)
-        formData.append('offer_id', offerId)
-
-        setUploading(true)
-
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-
-            const { data } = await axios.post('/api/housingoffers/upload/', formData, config)
-
-
-            setImage(data)
-            setUploading(false)
-
-        } catch (error) {
-            setUploading(false)
+    const handleFileChange = (e) => {
+        if (e.target.files) {
+          setFile(e.target.files[0]);
         }
-    }
+      }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
         formData.append('title', title);
         formData.append('price', price);
         formData.append('location', location);
-        formData.append('isFurnished', isFurnished);
-        formData.append('numberOfRooms', numberOfRooms);
-        formData.append('isPetFriendly', isPetFriendly);
+        formData.append('is_furnished', isFurnished);
+        formData.append('number_of_rooms', numberOfRooms);
+        formData.append('is_pet_friendly', isPetFriendly);
         formData.append('description', description);
-        formData.append('image', image);
+        formData.append('image', file);
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                     Authorization: `Bearer ${userInfo.token}`
+                }
+            }
 
-        dispatch(createOffer(formData));
+            const { data } = await axios.post('/api/housingoffers/create/', formData, config)
+
+        } catch (error) {
+            console.log('Error')
+        }
+
         
-    };
+    }
+
+    
 
     return (
         <Form onSubmit={submitHandler}>
@@ -90,10 +85,10 @@ function CreateScreen({match, history} ) {
             <Form.Group controlId="image">
                 <Form.Label className='my-2'>Image</Form.Label>
                 <Form.Control
-                    type="file"
-                    onChange={handleImageChange}
+                    type="file" onChange={handleFileChange} 
                 />
             </Form.Group>
+
             <Form.Group controlId="price">
                 <Form.Label>Price</Form.Label>
                 <Form.Control
