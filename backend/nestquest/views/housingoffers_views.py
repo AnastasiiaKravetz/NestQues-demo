@@ -93,22 +93,22 @@ def updateOffer(request, pk):
     try:
         data = request.data
         offer = HousingOffer.objects.get(_id=pk)
-
         offer.title = data['title']
         offer.price = data['price']
         offer.is_furnished = data['is_furnished']
-        offer.is_pet_friendly = data['is_pet_friendly']
+        offer.is_pet_friendly =data['is_pet_friendly']
         offer.location = data['location']
         offer.number_of_rooms = data['number_of_rooms']
         offer.description = data['description']
-
+        print(offer.is_furnished)
         offer.save()
-
+        
         serializer = HousingOfferSerializer(offer, many=False)
         return Response(serializer.data)
     except HousingOffer.DoesNotExist:
         return Response('Offer not found', status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
+        print(e)
         return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])

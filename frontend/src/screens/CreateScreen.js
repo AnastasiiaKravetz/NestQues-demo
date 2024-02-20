@@ -72,7 +72,7 @@ function CreateScreen({match, history} ) {
     
 
     return (
-        <Form onSubmit={submitHandler}>
+        <Form onSubmit={submitHandler} className=' my-2'>
             <Form.Group controlId="title">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
@@ -107,14 +107,7 @@ function CreateScreen({match, history} ) {
                     onChange={(e) => setLocation(e.target.value)}
                 />
             </Form.Group>
-            <Form.Group controlId="isFurnished">
-                <Form.Check
-                    type="checkbox"
-                    label="Is Furnished"
-                    checked={isFurnished}
-                    onChange={(e) => setIsFurnished(e.target.checked)}
-                />
-            </Form.Group>
+            
             <Form.Group controlId="numberOfRooms">
                 <Form.Label>Number of Rooms</Form.Label>
                 <Form.Control
@@ -124,12 +117,20 @@ function CreateScreen({match, history} ) {
                     onChange={(e) => setNumberOfRooms(e.target.value)}
                 />
             </Form.Group>
-            <Form.Group controlId="isPetFriendly">
+            <Form.Group controlId="isPetFriendly" className='my-2'>
                 <Form.Check
                     type="checkbox"
                     label="Is Pet Friendly"
                     checked={isPetFriendly}
                     onChange={(e) => setIsPetFriendly(e.target.checked)}
+                />
+            </Form.Group>
+            <Form.Group controlId="isFurnished" className='my-2'>
+                <Form.Check
+                    type="checkbox"
+                    label="Is Furnished"
+                    checked={isFurnished}
+                    onChange={(e) => setIsFurnished(e.target.checked)}
                 />
             </Form.Group>
             <Form.Group controlId="description">
@@ -141,7 +142,7 @@ function CreateScreen({match, history} ) {
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className='my-2'>
                 Submit
             </Button>
         </Form>

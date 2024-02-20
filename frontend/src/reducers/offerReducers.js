@@ -14,7 +14,12 @@ import {
 
     OFFER_DELETE_REQUEST,
     OFFER_DELETE_SUCCESS,
-    OFFER_DELETE_FAIL
+    OFFER_DELETE_FAIL,
+
+    OFFER_UPDATE_REQUEST,
+    OFFER_UPDATE_SUCCESS,
+    OFFER_UPDATE_FAIL,
+    OFFER_UPDATE_RESET
 } from '../constants/offerConstans'
 
 
@@ -87,6 +92,25 @@ export const offerDeleteReducer = (state = {}, action) => {
 
         case OFFER_DELETE_FAIL:
             return { loading: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const offerUpdateReducer = (state = { offer: {} }, action) => {
+    switch (action.type) {
+        case OFFER_UPDATE_REQUEST:
+            return { loading: true }
+
+        case OFFER_UPDATE_SUCCESS:
+            return { loading: false, success: true, offer: action.payload }
+
+        case OFFER_UPDATE_FAIL:
+            return { loading: false, error: action.payload }
+
+        case OFFER_UPDATE_RESET:
+            return { offer: {} }
 
         default:
             return state

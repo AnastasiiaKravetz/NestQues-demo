@@ -15,7 +15,12 @@ import {
 
     OFFER_DELETE_REQUEST,
     OFFER_DELETE_SUCCESS,
-    OFFER_DELETE_FAIL
+    OFFER_DELETE_FAIL,
+
+    OFFER_UPDATE_REQUEST,
+    OFFER_UPDATE_SUCCESS,
+    OFFER_UPDATE_FAIL,
+
 } from '../constants/offerConstans'
 
 export const listOffers = () => async (dispatch) => {
@@ -125,6 +130,51 @@ export const deleteOffer = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: OFFER_DELETE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+
+export const updateOffer = (offer) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: OFFER_UPDATE_REQUEST
+        })
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/housingoffers/update/${offer._id}/`,
+            offer,
+            config
+        )
+        dispatch({
+            type: OFFER_UPDATE_SUCCESS,
+            payload: data,
+        })
+
+
+        dispatch({
+            type: OFFER_DETAILS_SUCCESS,
+            payload: data
+        })
+
+
+    } catch (error) {
+        dispatch({
+            type: OFFER_UPDATE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
