@@ -1,81 +1,107 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup } from 'react-bootstrap'
-import Loader from '../components/Loader'
-import Message from '../components/Message'
-import { listOfferDetails } from '../actions/offerActions'
-import { useParams } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Row, Col, Image, ListGroup, Form, Button } from 'react-bootstrap'; 
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { listOfferDetails } from '../actions/offerActions';
+import { useParams, useNavigate } from "react-router-dom";
+import { createMessage } from '../actions/messageAction'
+import { MESSAGE_CREATE_RESET } from '../constants/messageConstans';
 
-function OfferScreen({ match }) {
-    
+function OfferScreen() {
 
-    const dispatch = useDispatch();
-	const offerDetails = useSelector((state) => state.offerDetails)
-	const { loading, error, offer } = offerDetails
 
-	const params = useParams()
-	console.log(params.id)
-	useEffect(() => {
-		dispatch(listOfferDetails(params.id))
-	}, [dispatch, params])
+    const dispatch = useDispatch()
+
+    const [content, setContent] = useState('')
+
+    const offerDetails = useSelector((state) => state.offerDetails);
+    const { loading, error, offer } = offerDetails;
+
+    const messageCreate = useSelector((state) => state.messageCreate)
+    const { loading: loadingCreate, error: errorCreate, success: successCreate, message: createdMessage } = messageCreate
+
+
+    const navigate = useNavigate()
+
+
+    useEffect(() => {
+        if (successCreate) {
+            dispatch({ type: MESSAGE_CREATE_RESET })
+            navigate(`/`)
+        }
+    }, [dispatch, navigate, successCreate, createdMessage])
+
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        dispatch(createMessage({ content }));
+    };
+
+    const params = useParams();
+    useEffect(() => {
+        dispatch(listOfferDetails(params.id));
+    }, [dispatch, params]);
 
     return (
         <div>
-            <Link to='/' className='btn btn-light my-3'>Go Back</Link>
+            <Link to='/' className='btn btn-light my-4'>Go Back</Link>
             {loading ?
                 <Loader />
-                : error
-                    ? <Message variant='danger'>{error}</Message>
+                : error ?
+                    <Message variant='danger'>{error}</Message>
                     : (
-                        <div>
-                            <Row>
-                                <Col md={6}>
-                                    <Image src={offer.image} alt={offer.name} fluid />
-                                </Col>
-
-
-                                <Col md={6}>
-                                    <ListGroup variant="flush">
-                                        <ListGroup.Item>
-                                            <h3>{offer.titel}</h3>
-                                        </ListGroup.Item>
-
-                                        <ListGroup.Item>
-                                            Price: ${offer.price}
-                                        </ListGroup.Item>
-
-                                        <ListGroup.Item>
-                                            Rooms: {offer.number_of_rooms}
-                                        </ListGroup.Item>
-
-                                        <ListGroup.Item>
-                                            Description: {offer.description}
-                                        </ListGroup.Item>
-
-                                        <ListGroup.Item className='btn btn-light my-2'>
-                                            Furnished: {offer.is_furnished ? "Yes" : "No"}
-                                        </ListGroup.Item>
-
-                                        <ListGroup.Item className='btn btn-light my-2'>
-                                            Pet friendly: {offer.is_pet_friendly ? "Yes" : "No"}
-                                        </ListGroup.Item>
-
-                                        <ListGroup.Item>
-                                            Location: {offer.location}
-                                        </ListGroup.Item>
-
-                                    </ListGroup>
-                                </Col>
-                            </Row>
-                        </div>
+                        <Row>
+                            <Col md={6}>
+                                <Image src={offer.image} alt={offer.name} fluid />
+                            </Col>
+                            <Col md={6}>
+                                <ListGroup variant="flush">
+                                    <ListGroup.Item>
+                                        <h3>{offer.titel}</h3>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        Price: ${offer.price}
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        Rooms: {offer.number_of_rooms}
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        Description: {offer.description}
+                                    </ListGroup.Item>
+                                    <ListGroup.Item >
+                                        Furnished: {offer.is_furnished ? "Yes" : "No"}
+                                    </ListGroup.Item>
+                                    <ListGroup.Item >
+                                        Pet friendly: {offer.is_pet_friendly ? "Yes" : "No"}
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        Location: {offer.location}
+                                    </ListGroup.Item>
+                                    
+                                    
+                                    <Form onSubmit={submitHandler} className='my-4'>
+                                    <Form.Group controlId='message'>
+                                        <Form.Label>Message:</Form.Label>
+                                        <Form.Control
+                                            as='textarea'
+                                            row='3'
+                                            value={content}
+                                            onChange={(e) => setContent(e.target.value)}
+                                        ></Form.Control>
+                                    </Form.Group>
+                                    <Button type='submit' variant='primary'>
+                                        Submit
+                                    </Button>
+                                </Form>
+                                </ListGroup>
+                            </Col>
+                        </Row>
                     )
-
             }
-
-
-        </div >
-    )
+        </div>
+    );
 }
 
-export default OfferScreen
+export default OfferScreen;

@@ -27,6 +27,7 @@ function App() {
             <Route path='/create' element={<CreateScreen />} />
             <Route path='/offerlist' element={<UsersOfferScreen />} />
             <Route path='/housingoffer/:id/edit' element={<OfferEditScreen />} />
+            
 
 
           </Routes>

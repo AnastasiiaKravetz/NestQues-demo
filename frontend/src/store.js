@@ -3,7 +3,7 @@ import { thunk } from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { offerListReducer, offerDetailsReducer, offerCreateReducer, offerDeleteReducer, offerUpdateReducer } from './reducers/offerReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userRedusers'
-
+import { messageCreateReducer  } from './reducers/messageReducers'
 const reducer = combineReducers({ 
   
   offerList: offerListReducer,
@@ -16,6 +16,9 @@ const reducer = combineReducers({
 	userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdate: userUpdateProfileReducer,
+
+
+  messageCreate:messageCreateReducer,
 
  })
 

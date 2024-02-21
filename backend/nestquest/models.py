@@ -28,7 +28,7 @@ class HousingRequest(models.Model):
 
 
     def __str__(self):
-        return f"Request from {self.user.username} for {self.housing_offer.title}"
+        return f"Request from {self.user.username} "#for {self.housing_offer.title}
 
 
 

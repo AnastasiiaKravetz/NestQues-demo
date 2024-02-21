@@ -55,11 +55,11 @@ def createMessage(request):
     try:
         data = request.data
         user = request.user
-        request_id = int(data['request_id']) 
-        housing_request = HousingRequest.objects.get(pk=request_id)
+        #request_id = int(data['request_id']) 
+        #housing_request = HousingRequest.objects.get(pk=request_id)
         
         message = Message.objects.create(
-            request=housing_request,
+            #request=housing_request,
             user=user,
             content=data['content'] 
         )
@@ -69,6 +69,7 @@ def createMessage(request):
     except HousingRequest.DoesNotExist:
         return Response("HousingRequest with the provided ID does not exist.", status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
+        print(e)
         return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
