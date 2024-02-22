@@ -1,70 +1,70 @@
 import axios from 'axios'
 
 import {
-    MESSAGE_LIST_REQUEST,
-    MESSAGE_LIST_SUCCESS,
-    MESSAGE_LIST_FAIL,
+    REQUEST_LIST_REQUEST,
+    REQUEST_LIST_SUCCESS,
+    REQUEST_LIST_FAIL,
 
-    MESSAGE_DETAILS_REQUEST,
-    MESSAGE_DETAILS_SUCCESS,
-    MESSAGE_DETAILS_FAIL,
+    REQUEST_DETAILS_REQUEST,
+    REQUEST_DETAILS_SUCCESS,
+    REQUEST_DETAILS_FAIL,
 
-    MESSAGE_CREATE_SUCCESS,
-    MESSAGE_CREATE_REQUEST,
-    MESSAGE_CREATE_FAIL,
-    MESSAGE_CREATE_RESET,
+    REQUEST_CREATE_SUCCESS,
+    REQUEST_CREATE_REQUEST,
+    REQUEST_CREATE_FAIL,
+    REQUEST_CREATE_RESET,
 
-    MESSAGE_DELETE_REQUEST,
-    MESSAGE_DELETE_SUCCESS,
-    MESSAGE_DELETE_FAIL,
+    REQUEST_DELETE_REQUEST,
+    REQUEST_DELETE_SUCCESS,
+    REQUEST_DELETE_FAIL,
 
-} from '../constants/messageConstans'
+} from '../constants/requestConstants'
 
-export const listMessages = () => async (dispatch) => {
+export const listRequests = () => async (dispatch) => {
     try {
-        dispatch({ type: MESSAGE_LIST_REQUEST })
+        dispatch({ type: REQUEST_LIST_REQUEST })
 
-        const { data } = await axios.get(`api/messages/mymessage/`)
+        const { data } = await axios.get(`api/housingrequests/myrequest/`)
 
         dispatch({
-            type: MESSAGE_LIST_SUCCESS,
+            type: REQUEST_LIST_SUCCESS,
             payload: data
         })
 
     } catch (error) {
         dispatch({
-            type: MESSAGE_LIST_FAIL,
+            type: REQUEST_LIST_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
-                : error.message,
+                : error.request,
         })
     }
 }
 
-export const listMessageDetails = (id) => async (dispatch) => {
+export const listRequestDetails = (id) => async (dispatch) => {
     try {
-        dispatch({ type: MESSAGE_DETAILS_REQUEST })
+        dispatch({ type: REQUEST_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/messages/${id}`)
+        const { data } = await axios.get(`/api/housingrequests/${id}`)
 
         dispatch({
-            type: MESSAGE_DETAILS_SUCCESS,
+            type: REQUEST_DETAILS_SUCCESS,
             payload: data
         })
 
     } catch (error) {
         dispatch({
-            type: MESSAGE_DETAILS_FAIL,
+            type: REQUEST_DETAILS_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
-                : error.message,
+                : error.request,
         })
     }
 }
 
-export const createMessage = (content, requestId) => async (dispatch, getState) => {
+export const createRequest = (housing_offer_id) => async (dispatch, getState) => {
     try {
-        dispatch({ type: MESSAGE_CREATE_REQUEST });
+        dispatch({ type: REQUEST_CREATE_REQUEST });
 
         const {
             userLogin: { userInfo },
@@ -78,29 +78,30 @@ export const createMessage = (content, requestId) => async (dispatch, getState) 
         };
 
         const { data } = await axios.post(
-            '/api/messages/create/',
-            { content, request_id: requestId }, // Pass requestId in the request body
+            '/api/housingrequests/create/',
+            housing_offer_id, 
             config
         );
 
         dispatch({
-            type: MESSAGE_CREATE_SUCCESS,
+            type: REQUEST_CREATE_SUCCESS,
             payload: data,
         });
     } catch (error) {
         dispatch({
-            type: MESSAGE_CREATE_FAIL,
+            type: REQUEST_CREATE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
-                : error.message,
+                : error.request,
         });
     }
 };
 
-export const deleteMessage = (id) => async (dispatch, getState) => {
+
+export const deleteRequest = (id) => async (dispatch, getState) => {
     try {
         dispatch({
-            type: MESSAGE_DELETE_REQUEST
+            type: REQUEST_DELETE_REQUEST
         })
 
         const {
@@ -115,21 +116,21 @@ export const deleteMessage = (id) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.delete(
-            `/api/messages/delete/${id}/`,
+            `/api/housingrequests/delete/${id}/`,
             config
         )
 
         dispatch({
-            type: MESSAGE_DELETE_SUCCESS,
+            type: REQUEST_DELETE_SUCCESS,
         })
 
 
     } catch (error) {
         dispatch({
-            type: MESSAGE_DELETE_FAIL,
+            type: REQUEST_DELETE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
-                : error.message,
+                : error.request,
         })
     }
 }

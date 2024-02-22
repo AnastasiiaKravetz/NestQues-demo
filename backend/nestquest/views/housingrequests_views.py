@@ -80,19 +80,26 @@ def createRequest(request):
     try:
         data = request.data
         user = request.user
-        housing_offer_id = int(data['housing_offer']) 
+        housing_offer_id = int(data['housing_offer'])
+        
+    
+        existing_request = HousingRequest.objects.filter(user=user, housing_offer_id=housing_offer_id)
+        if existing_request.exists():
+            return Response("You have already made a request for this housing offer.", status=status.HTTP_400_BAD_REQUEST)
+        
         housing_offer = HousingOffer.objects.get(pk=housing_offer_id)  
         housingrequest = HousingRequest.objects.create(
             user=user,
             housing_offer=housing_offer 
         )
-
         serializer = HousingRequestSerializer(housingrequest, many=False)
         return Response(serializer.data)
     except HousingOffer.DoesNotExist:
         return Response("HousingOffer with the provided ID does not exist.", status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
+        print(e)
         return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

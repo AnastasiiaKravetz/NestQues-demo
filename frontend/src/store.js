@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { offerListReducer, offerDetailsReducer, offerCreateReducer, offerDeleteReducer, offerUpdateReducer } from './reducers/offerReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userRedusers'
 import { messageCreateReducer  } from './reducers/messageReducers'
+import { requestCreateReducer,requestDetailsReducer  } from './reducers/requestReducer'
 const reducer = combineReducers({ 
   
   offerList: offerListReducer,
@@ -19,6 +20,10 @@ const reducer = combineReducers({
 
 
   messageCreate:messageCreateReducer,
+
+
+  requestDetails:requestDetailsReducer,
+  requestCreate:requestCreateReducer
 
  })
 
