@@ -25,13 +25,13 @@ def getMyMessages(request):
     except EmptyPage:
         messages = paginator.page(paginator.num_pages)
 
-    if page == None:
+    if page is None:
         page = 1
 
     page = int(page)
     serializer = MessageSerializer(messages, many=True)
     return Response({'requests': serializer.data, 'page': page, 'pages': paginator.num_pages})
-
+      
 
 @api_view(['GET'])
 def getMessage(request, pk):

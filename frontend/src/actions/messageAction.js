@@ -18,18 +18,30 @@ import {
     MESSAGE_DELETE_SUCCESS,
     MESSAGE_DELETE_FAIL,
 
+
 } from '../constants/messageConstans'
 
-export const listMessages = () => async (dispatch) => {
+export const listMessages = (id) => async (dispatch, getState) => {
     try {
         dispatch({ type: MESSAGE_LIST_REQUEST })
 
-        const { data } = await axios.get(`api/messages/mymessage/`)
+        const { data } = await axios.get(`/api/messages/${id}/chat`);
+
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
 
         dispatch({
             type: MESSAGE_LIST_SUCCESS,
             payload: data
         })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        };
 
     } catch (error) {
         dispatch({

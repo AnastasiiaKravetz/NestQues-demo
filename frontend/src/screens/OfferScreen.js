@@ -37,27 +37,25 @@ function OfferScreen() {
         }
 
         if (successRequestCreate && createdRequest) {
-            // If successful, set the request ID
             setRequestId(createdRequest._id);
         }
     }, [dispatch, navigate, successMessageCreate, successRequestCreate, createdRequest]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Check if the content field is empty
+       
         if (!content) {
-            // Display an error message or handle the case where content is empty
+            
             return;
         }
 
-        // Dispatch the createRequest action
+        
         dispatch(createRequest({
             housing_offer: offer._id, 
             user: userInfo._id
         }));
         
-        // Dispatch the createMessage action when the request creation was successful and a request was created
+        
         if (successRequestCreate && createdRequest) {
             dispatch(createMessage(content, createdRequest._id));
         }

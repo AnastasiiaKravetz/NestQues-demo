@@ -29,7 +29,7 @@ class HousingOfferSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class HousingRequestSerializer(serializers.ModelSerializer):
-
+    housing_offer = HousingOfferSerializer()
     class Meta:
         model = HousingRequest
         fields = '__all__'

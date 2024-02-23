@@ -22,7 +22,7 @@ import {
 export const requestListReducer = (state = { requests: [] }, action) => {
     switch (action.type) {
         case REQUEST_LIST_REQUEST:
-            return { loading: true, requests: [] }
+            return { loading: true, requests: [] };
 
         case REQUEST_LIST_SUCCESS:
             return {
@@ -30,13 +30,15 @@ export const requestListReducer = (state = { requests: [] }, action) => {
                 requests: action.payload.requests,
                 page: action.payload.page,
                 pages: action.payload.pages
-            }
+            };
 
         case REQUEST_LIST_FAIL:
-            return { loading: false, error: action.payload }
+            return { loading: false, error: action.payload };
+
+        
 
         default:
-            return state
+            return state;
     }
 }
 
@@ -81,16 +83,16 @@ export const requestCreateReducer = (state = {}, action) => {
 export const requestDeleteReducer = (state = {}, action) => {
     switch (action.type) {
         case REQUEST_DELETE_REQUEST:
-            return { loading: true }
+            return { loading: true };
 
         case REQUEST_DELETE_SUCCESS:
-            return { loading: false, success: true }
+            return { loading: false, success: true };
 
         case REQUEST_DELETE_FAIL:
-            return { loading: false, error: action.payload }
+            return { loading: false, error: action.payload };
 
         default:
-            return state
+            return state;
     }
-}
+};
 

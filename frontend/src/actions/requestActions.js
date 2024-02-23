@@ -20,26 +20,36 @@ import {
 
 } from '../constants/requestConstants'
 
-export const listRequests = () => async (dispatch) => {
+export const listRequests = () => async (dispatch, getState) => {
     try {
-        dispatch({ type: REQUEST_LIST_REQUEST })
+        dispatch({ type: REQUEST_LIST_REQUEST });
 
-        const { data } = await axios.get(`api/housingrequests/myrequest/`)
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        };
+
+        const { data } = await axios.get(`/api/housingrequests/myrequests/`, config);
 
         dispatch({
             type: REQUEST_LIST_SUCCESS,
             payload: data
-        })
-
+        });
     } catch (error) {
         dispatch({
             type: REQUEST_LIST_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
-                : error.request,
-        })
+                : error.message,
+        });
     }
-}
+};
 
 export const listRequestDetails = (id) => async (dispatch) => {
     try {
@@ -100,39 +110,33 @@ export const createRequest = (housing_offer_id) => async (dispatch, getState) =>
 
 export const deleteRequest = (id) => async (dispatch, getState) => {
     try {
-        dispatch({
-            type: REQUEST_DELETE_REQUEST
-        })
+        dispatch({ type: REQUEST_DELETE_REQUEST });
 
         const {
             userLogin: { userInfo },
-        } = getState()
+        } = getState();
 
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        }
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
 
-        const { data } = await axios.delete(
-            `/api/housingrequests/delete/${id}/`,
-            config
-        )
+        await axios.delete(`/api/housingrequests/delete/${id}/`, config);
 
-        dispatch({
-            type: REQUEST_DELETE_SUCCESS,
-        })
+        dispatch({ type: REQUEST_DELETE_SUCCESS });
 
-
+        // Dispatch an action to fetch updated requests after deletion if needed
+        // dispatch(listRequests());
     } catch (error) {
         dispatch({
             type: REQUEST_DELETE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
-                : error.request,
-        })
+                : error.message,
+        });
     }
-}
+};
 
 

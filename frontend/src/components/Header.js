@@ -37,6 +37,10 @@ function Header() {
                                         <NavDropdown.Item>My offers</NavDropdown.Item>
                                     </LinkContainer>
 
+                                    <LinkContainer to='/requests'>
+                                        <NavDropdown.Item>All Requests</NavDropdown.Item>
+                                    </LinkContainer>
+
                                     <LinkContainer to='/'>
                                         <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                                     </LinkContainer>

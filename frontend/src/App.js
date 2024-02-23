@@ -11,6 +11,8 @@ import ProfileScreen from './screens/ProfileScreen';
 import CreateScreen from './screens/CreateScreen';
 import UsersOfferScreen from './screens/UsersOfferScreen';
 import OfferEditScreen from './screens/OfferEditScreen';
+import RequestScreen from './screens/RequestScreen';
+import ChatScreen from './screens/ChatScreen';
 
 function App() {
   return (
@@ -27,7 +29,9 @@ function App() {
             <Route path='/create' element={<CreateScreen />} />
             <Route path='/offerlist' element={<UsersOfferScreen />} />
             <Route path='/housingoffer/:id/edit' element={<OfferEditScreen />} />
-            
+            <Route path='/requests' element={<RequestScreen />} />
+            <Route path='/chat/:id' element={<ChatScreen />} />
+          
 
 
           </Routes>

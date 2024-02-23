@@ -22,7 +22,7 @@ class HousingOffer(models.Model):
 
 class HousingRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    housing_offer = models.ForeignKey(HousingOffer, on_delete=models.SET_NULL, null=True)
+    housing_offer = models.ForeignKey(HousingOffer, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
@@ -33,11 +33,11 @@ class HousingRequest(models.Model):
 
 
 class Message(models.Model):
-    request = models.ForeignKey(HousingRequest, on_delete=models.SET_NULL, null=True)
+    request = models.ForeignKey(HousingRequest, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
-        return f"Message from {self.user.username} at {self.timestamp}"
+        return f"Message from {self.user.username} at {self.created_at}"
