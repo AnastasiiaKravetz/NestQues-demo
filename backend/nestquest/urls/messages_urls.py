@@ -8,5 +8,7 @@ path('mymessage/', views.getMyMessages, name="messages"),
 #path('requestsmessage/', views.getRequestMessages, name="messages"),
 path('<str:pk>/', views.getMessage, name="message"),
 path('delete/<str:pk>/', views.deleteMessage, name="message-delete"),
+path('deleteByRequestId/<str:pk>/', views.deleteMessages, name="messages-delete"),
+
 path('update/<str:pk>/', views.updateMessage, name="message-update"),
 ]

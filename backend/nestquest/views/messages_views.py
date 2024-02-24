@@ -120,4 +120,20 @@ def getOfferRequests(request):
         serializer = MessageSerializer(messages, many=True)
         return Response({'messages': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
+@api_view(['DELETE'])
+def deleteMessages(request, pk):
+    try:
+    
+        housing_request = HousingRequest.objects.get(pk=pk)
+        Message.objects.filter(request=housing_request).delete()
+        housing_request.delete()
+        
+        return Response('Messages and request deleted successfully')
+    except HousingRequest.DoesNotExist:
+        return Response("HousingRequest with the provided ID does not exist.", status=status.HTTP_400_BAD_REQUEST)
+    except Message.DoesNotExist:
+        return Response("No messages found for the provided request ID.", status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        print("Error:", e) 
+        return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 

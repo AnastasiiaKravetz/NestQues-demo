@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from nestquest.models import HousingOffer, HousingRequest, HousingRequest
+from nestquest.models import HousingOffer, HousingRequest, HousingRequest, Message
 from nestquest.serializers import HousingRequestSerializer, HousingRequestSerializer, MessageSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework.decorators import api_view, permission_classes
@@ -32,10 +32,11 @@ def getMyRequests(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def getChat(request, pk):
-    
-    messages = messages.objects.get(request=pk).order_by('-created_at')
+def getChat(r, pk):
+    print(pk)
+    messages = Message.objects.all().filter(request=pk).order_by('created_at')
     serializer = MessageSerializer(messages, many=True)
+    
     return Response(serializer.data)
 
 
@@ -90,7 +91,7 @@ def createRequest(request):
     try:
         data = request.data
         user = request.user
-        housing_offer_id = int(data['housing_offer'])
+        housing_offer_id = int(data['housing_offer_id'])
         
     
         existing_request = HousingRequest.objects.filter(user=user, housing_offer_id=housing_offer_id)
@@ -102,6 +103,8 @@ def createRequest(request):
             user=user,
             housing_offer=housing_offer 
         )
+
+        message = Message.objects.create(user=user, content = data['content'], request = housingrequest)
         serializer = HousingRequestSerializer(housingrequest, many=False)
         return Response(serializer.data)
     except HousingOffer.DoesNotExist:

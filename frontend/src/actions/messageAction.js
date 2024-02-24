@@ -17,6 +17,10 @@ import {
     MESSAGE_DELETE_REQUEST,
     MESSAGE_DELETE_SUCCESS,
     MESSAGE_DELETE_FAIL,
+    
+    MESSAGES_DELETE_REQUEST,
+    MESSAGES_DELETE_SUCCESS,
+    MESSAGES_DELETE_FAIL,
 
 
 } from '../constants/messageConstans'
@@ -25,23 +29,22 @@ export const listMessages = (id) => async (dispatch, getState) => {
     try {
         dispatch({ type: MESSAGE_LIST_REQUEST })
 
-        const { data } = await axios.get(`/api/messages/${id}/chat`);
-
-
         const {
             userLogin: { userInfo },
         } = getState();
 
-        dispatch({
-            type: MESSAGE_LIST_SUCCESS,
-            payload: data
-        })
         const config = {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${userInfo.token}`
             }
         };
+        const { data } = await axios.get(`/api/housingrequests/${id}/chat`,config);
+        dispatch({
+            type: MESSAGE_LIST_SUCCESS,
+            payload: data
+        })
+        
 
     } catch (error) {
         dispatch({
@@ -91,7 +94,7 @@ export const createMessage = (content, requestId) => async (dispatch, getState) 
 
         const { data } = await axios.post(
             '/api/messages/create/',
-            { content, request_id: requestId }, // Pass requestId in the request body
+            { content, request_id: requestId },
             config
         );
 
@@ -147,3 +150,17 @@ export const deleteMessage = (id) => async (dispatch, getState) => {
 }
 
 
+export const deleteMessagesByRequestId = (requestId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: MESSAGES_DELETE_REQUEST });
+
+        
+        await axios.delete(`/api/messages/deleteByRequestId/${requestId}`);
+
+        
+        dispatch({ type: MESSAGES_DELETE_SUCCESS });
+    } catch (error) {
+        
+        dispatch({ type: MESSAGES_DELETE_FAIL, payload: error.message });
+    }
+};

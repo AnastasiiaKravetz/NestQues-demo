@@ -72,7 +72,7 @@ export const listRequestDetails = (id) => async (dispatch) => {
     }
 }
 
-export const createRequest = (housing_offer_id) => async (dispatch, getState) => {
+export const createRequest = (housing_offer_data) => async (dispatch, getState) => {
     try {
         dispatch({ type: REQUEST_CREATE_REQUEST });
 
@@ -87,16 +87,24 @@ export const createRequest = (housing_offer_id) => async (dispatch, getState) =>
             }
         };
 
-        const { data } = await axios.post(
+        const { requestdata } = await axios.post(
             '/api/housingrequests/create/',
-            housing_offer_id, 
+            housing_offer_data, 
             config
-        );
+        )
+
 
         dispatch({
             type: REQUEST_CREATE_SUCCESS,
-            payload: data,
+            payload: requestdata,
         });
+
+        
+
+       
+
+
+
     } catch (error) {
         dispatch({
             type: REQUEST_CREATE_FAIL,
@@ -105,6 +113,7 @@ export const createRequest = (housing_offer_id) => async (dispatch, getState) =>
                 : error.request,
         });
     }
+
 };
 
 

@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { listRequests, deleteRequest as deleteRequestAction } from '../actions/requestActions';
+import { deleteMessagesByRequestId } from '../actions/messageAction';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
 
 function RequestScreen() {
     const dispatch = useDispatch();
-    
     const requestList = useSelector(state => state.requestList);
     const { loading, error, requests } = requestList;
 
@@ -18,7 +18,9 @@ function RequestScreen() {
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure you want to delete this request?')) {
-            dispatch(deleteRequestAction(id));
+            dispatch(deleteMessagesByRequestId(id)); 
+            dispatch(deleteRequestAction(id)); 
+            window.location.reload();
         }
     };
 

@@ -15,12 +15,16 @@ function OfferScreen() {
     const dispatch = useDispatch();
     const [content, setContent] = useState('');
     const [requestId, setRequestId] = useState(null); 
+    const [messageCreated, setmessageCreated] = useState(false);
 
     const offerDetails = useSelector((state) => state.offerDetails);
     const { loading, error, offer } = offerDetails;
 
+    const requestList = useSelector(state => state.requestList);
+    const { loadingReq, errorReq, requests } = requestList;
+
     const messageCreate = useSelector((state) => state.messageCreate);
-    const { success: successMessageCreate } = messageCreate;
+    const { loading: createMessageRequestSent, success: successMessageCreate } = messageCreate;
 
     const requestCreate = useSelector((state) => state.requestCreate);
     const { success: successRequestCreate, request: createdRequest } = requestCreate;
@@ -28,37 +32,18 @@ function OfferScreen() {
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
+
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (successMessageCreate) {
-            dispatch({ type: MESSAGE_CREATE_RESET });
-            navigate(`/`);
-        }
-
-        if (successRequestCreate && createdRequest) {
-            setRequestId(createdRequest._id);
-        }
-    }, [dispatch, navigate, successMessageCreate, successRequestCreate, createdRequest]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-       
-        if (!content) {
-            
+        if (!content) {  
             return;
-        }
-
-        
-        dispatch(createRequest({
-            housing_offer: offer._id, 
-            user: userInfo._id
-        }));
+        } 
+        dispatch(createRequest({housing_offer_id: offer._id, user: userInfo._id, content}));
         
         
-        if (successRequestCreate && createdRequest) {
-            dispatch(createMessage(content, createdRequest._id));
-        }
     };
 
     const params = useParams();

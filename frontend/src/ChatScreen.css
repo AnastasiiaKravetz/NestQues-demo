@@ -1,0 +1,13 @@
+.user-message {
+    background-color: violet; /* Background color for messages sent by the current user */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.other-message {
+    background-color: lightblue; /* Background color for messages sent by other users */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.message-table {
+    width: 100%; /* Set the table width to 100% */
+}

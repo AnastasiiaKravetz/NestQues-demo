@@ -16,6 +16,10 @@ import {
     MESSAGE_DELETE_SUCCESS,
     MESSAGE_DELETE_FAIL,
 
+    MESSAGES_DELETE_REQUEST,
+    MESSAGES_DELETE_SUCCESS,
+    MESSAGES_DELETE_FAIL,
+
 } from '../constants/messageConstans'
 
 
@@ -27,9 +31,7 @@ export const messageListReducer = (state = { messages: [] }, action) => {
         case MESSAGE_LIST_SUCCESS:
             return {
                 loading: false,
-                messages: action.payload.messages,
-                page: action.payload.page,
-                pages: action.payload.pages
+                messages: action.payload,
             }
 
         case MESSAGE_LIST_FAIL:
@@ -71,7 +73,7 @@ export const messageCreateReducer = (state = {}, action) => {
             return { loading: false, error: action.payload }
 
         case MESSAGE_CREATE_RESET:
-            return {}
+            return {    }
 
         default:
             return state
@@ -94,3 +96,15 @@ export const messageDeleteReducer = (state = {}, action) => {
     }
 }
 
+export const messagesDeleteReducer = (state = { loading: false, success: false, error: null }, action) => {
+    switch (action.type) {
+        case MESSAGES_DELETE_REQUEST:
+            return { loading: true, success: false, error: null };
+        case MESSAGES_DELETE_SUCCESS:
+            return { loading: false, success: true, error: null };
+        case MESSAGES_DELETE_FAIL:
+            return { loading: false, success: false, error: action.payload };
+        default:
+            return state;
+    }
+};
