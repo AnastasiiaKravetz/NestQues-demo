@@ -10,12 +10,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def getOffers(request):
 
     query = request.query_params.get('keyword', '')
+    if query == None:
+        query = ''
     
     offers = HousingOffer.objects.filter(
         title__icontains=query).order_by('-created_at') 
     
     page = request.query_params.get('page')
-    paginator = Paginator(offers, 20)
+    paginator = Paginator(offers, 10)
 
     try:
         offers = paginator.page(page)

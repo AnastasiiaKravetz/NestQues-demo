@@ -6,11 +6,12 @@ import { deleteMessagesByRequestId } from '../actions/messageAction';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
+import Paginate from '../components/Paginate';
 
 function RequestScreen() {
     const dispatch = useDispatch();
     const requestList = useSelector(state => state.requestList);
-    const { loading, error, requests } = requestList;
+    const { loading, error, requests, page, pages } = requestList;
 
     useEffect(() => {
         dispatch(listRequests());
@@ -28,7 +29,7 @@ function RequestScreen() {
         <div>
             <Row className='align-items-center my-2'>
                 <Col>
-                    <h1>All Requests</h1>
+                    <h1 className="fs-2" >All Requests</h1>
                 </Col>
             </Row>
             
@@ -41,32 +42,30 @@ function RequestScreen() {
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Action</th>
+                                <th className="fs-4" style={{ color: '#485785' }}>Title</th>
                             </tr>
                         </thead>
                         <tbody>
                             {Array.isArray(requests) && requests.map(request => (
                                 <tr key={request._id}>
-                                    <td>{request._id}</td>
-                                    <td>{request.housing_offer.title}</td>
-                                    <td> 
+                                    <td className="fs-4" style={{ color: '#485785' }}>{request.housing_offer.title}</td>
+                                    <td className="text-end"> 
                                         <div className="button-container">
-                                            <Button variant='danger' className='btn-sm my-2' onClick={() => deleteHandler(request._id)}>
-                                                <i className='fas fa-trash'></i> Delete
-                                            </Button>
                                             <LinkContainer to={`/chat/${request._id}`}>
-                                                <Button variant='light' className='btn-sm my-2'>
-                                                    <i className='fas fa-edit'></i> Chat
+                                                <Button variant='light' className='btn my-3'>
+                                                    <i className='fs-4'></i> Chat
                                                 </Button>
                                             </LinkContainer>
+                                            <Button variant='danger' className='btn my-3' onClick={() => deleteHandler(request._id)}>
+                                                <i className='fs-4'></i> Delete
+                                            </Button>
                                         </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </Table>
+                    <Paginate page={page} pages={pages} />
                 </div>
             )}
         </div>

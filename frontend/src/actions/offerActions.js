@@ -23,11 +23,11 @@ import {
 
 } from '../constants/offerConstans'
 
-export const listOffers = () => async (dispatch) => {
+export const listOffers = (keyword = '') => async (dispatch) => {
     try {
         dispatch({ type: OFFER_LIST_REQUEST })
 
-        const { data } = await axios.get(`/api/housingoffers/`)
+        const { data } = await axios.get(`/api/housingoffers${keyword}`)
 
         dispatch({
             type: OFFER_LIST_SUCCESS,
