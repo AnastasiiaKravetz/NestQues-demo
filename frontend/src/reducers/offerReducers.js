@@ -4,7 +4,6 @@ import {
     OFFER_LIST_FAIL
 } from '../constants/offerConstans'
 
-
 export const offerListReducer = (state = { offers: [] }, action) => {
     switch (action.type) {
         case OFFER_LIST_REQUEST:
@@ -24,4 +23,81 @@ export const offerListReducer = (state = { offers: [] }, action) => {
         default:
             return state
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+
+export const offerDetailsReducer = (state = { offer: {} }, action) => {
+    switch (action.type) {
+        case OFFER_DETAILS_REQUEST:
+            return { loading: true, ...state }
+
+        case OFFER_DETAILS_SUCCESS:
+            return {
+                loading: false,
+                offer: action.payload,
+            }
+
+        case OFFER_DETAILS_FAIL:
+            return { loading: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const offerCreateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case OFFER_CREATE_REQUEST:
+            return { loading: true }
+
+        case OFFER_CREATE_SUCCESS:
+            return { loading: false, success: true, offer: action.payload }
+
+        case OFFER_CREATE_FAIL:
+            return { loading: false, error: action.payload }
+
+        case OFFER_CREATE_RESET:
+            return {}
+
+        default:
+            return state
+    }
+}
+
+export const offerDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+        case OFFER_DELETE_REQUEST:
+            return { loading: true }
+
+        case OFFER_DELETE_SUCCESS:
+            return { loading: false, success: true }
+
+        case OFFER_DELETE_FAIL:
+            return { loading: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const offerUpdateReducer = (state = { offer: {} }, action) => {
+    switch (action.type) {
+        case OFFER_UPDATE_REQUEST:
+            return { loading: true }
+
+        case OFFER_UPDATE_SUCCESS:
+            return { loading: false, success: true, offer: action.payload }
+
+        case OFFER_UPDATE_FAIL:
+            return { loading: false, error: action.payload }
+
+        case OFFER_UPDATE_RESET:
+            return { offer: {} }
+
+        default:
+            return state
+    }
+}
+>>>>>>> Stashed changes

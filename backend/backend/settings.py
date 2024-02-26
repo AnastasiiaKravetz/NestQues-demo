@@ -39,7 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+<<<<<<< Updated upstream
     'corsheaders', 
+=======
+    'corsheaders',
+    'storages',
+    'multiselectfield',
+
+>>>>>>> Stashed changes
     'nestquest.apps.NestquestConfig',
 ]
 
