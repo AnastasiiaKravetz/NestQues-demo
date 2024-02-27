@@ -15,8 +15,7 @@ function CreateScreen({match, history} ) {
     const [numberOfRooms, setNumberOfRooms] = useState(0)
     const [isPetFriendly, setIsPetFriendly] = useState(false)
     const [description, setDescription] = useState('')
-    const [image, setImage] = useState(null)
-    const [file, setFile] = useState(null)
+    const [files, setFiles] = useState(null)
     const [uploading, setUploading] = useState(false)
     const {userInfo}= useSelector(state => state.userLogin)
 
@@ -36,7 +35,8 @@ function CreateScreen({match, history} ) {
     
     const handleFileChange = (e) => {
         if (e.target.files) {
-          setFile(e.target.files[0]);
+          setFiles(e.target.files);
+          console.log(e.target.files)
         }
       }
 
@@ -51,7 +51,9 @@ function CreateScreen({match, history} ) {
         formData.append('number_of_rooms', numberOfRooms);
         formData.append('is_pet_friendly', isPetFriendly);
         formData.append('description', description);
-        formData.append('image', file);
+        for (let i = 0 ; i < files.length ; i++) {
+            formData.append("images", files[i]);
+        }
         try {
             const config = {
                 headers: {
@@ -85,7 +87,7 @@ function CreateScreen({match, history} ) {
             <Form.Group controlId="image">
                 <Form.Label className='my-2'>Image</Form.Label>
                 <Form.Control
-                    type="file" onChange={handleFileChange} 
+                    type="file" multiple onChange={handleFileChange} 
                 />
             </Form.Group>
 

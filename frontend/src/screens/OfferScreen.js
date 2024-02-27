@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Form, Button } from 'react-bootstrap'; 
+import { Row, Col, Image, ListGroup, Form, Button, Carousel } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { listOfferDetails } from '../actions/offerActions';
@@ -61,12 +61,22 @@ function OfferScreen() {
             ) : (
                 <Row>
                     <Col md={6}>
-                        <Image src={offer.image} alt={offer.name} fluid />
+                        <Carousel>
+                            {offer && offer.images && offer.images.map((image, index) => (
+                                <Carousel.Item key={index}>
+                                    <img
+                                        className="d-block w-100"
+                                        src={image.image}
+                                        alt={`Image ${index}`}
+                                    />
+                                </Carousel.Item>
+                            ))}
+                            </Carousel>
                     </Col>
                     <Col md={6}>
                         <ListGroup variant="flush">
                             <ListGroup.Item>
-                                <h3>{offer.titel}</h3>
+                                <h3>{offer.title}</h3>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 Price: ${offer.price}

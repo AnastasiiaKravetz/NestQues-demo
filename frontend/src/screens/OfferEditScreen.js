@@ -74,11 +74,14 @@ function OfferEditScreen({ }) {
     };
 
     const uploadFileHandler = async (e) => {
-        const file = e.target.files[0]
+        const files = e.target.files
         const formData = new FormData()
 
-        formData.append('image', file)
+        formData.append('images', files)
         formData.append('offer_id', offerId)
+        for (let i = 0 ; i < files.length ; i++) {
+            formData.append("images", files[i]);
+        }
 
         setUploading(true)
 
@@ -126,9 +129,9 @@ function OfferEditScreen({ }) {
                             </Form.Group>
 
                             <Form.Group controlId="image">
-                                <Form.Label className='my-2'>Image</Form.Label>
+                                <Form.Label className='my-2'>Images</Form.Label>
                                 <Form.Control
-                                    type="file" onChange={uploadFileHandler} 
+                                    type="file" multiple onChange={uploadFileHandler} 
                                 />
                             </Form.Group>
 

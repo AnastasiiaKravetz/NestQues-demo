@@ -7,7 +7,7 @@ import { messageCreateReducer, messageListReducer  } from './reducers/messageRed
 import { requestCreateReducer,requestDetailsReducer,requestListReducer, requestDeleteReducer  } from './reducers/requestReducer'
 const reducer = combineReducers({ 
   
-  offerList: offerListReducer,
+  offerList:offerListReducer,
   offerDetails:offerDetailsReducer,
   offerCreate:offerCreateReducer,
   offerDelete:offerDeleteReducer,

@@ -16,6 +16,7 @@ class HousingOffer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
+ 
     def __str__(self):
         return self.title
     
@@ -41,3 +42,10 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message from {self.user.username} at {self.created_at}"
+    
+class HousingOfferImage(models.Model):
+    housing_offer = models.ForeignKey(HousingOffer, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField()
+
+    def __str__(self):
+        return str(self.housing_offer)

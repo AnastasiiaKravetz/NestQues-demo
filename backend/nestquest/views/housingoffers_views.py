@@ -1,7 +1,8 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from nestquest.models import HousingOffer
+from nestquest.models import HousingOffer, HousingOfferImage
 from nestquest.serializers import HousingOfferSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -67,10 +68,10 @@ def createOffer(request):
         print(user)
         if 'title' not in data:
             return Response("Title is required", status=status.HTTP_400_BAD_REQUEST)
-
+        print(request.FILES.getlist('images'))
         offer = HousingOffer.objects.create(
             user=user,
-            image= request.FILES.get('image'),
+            image= request.FILES.getlist('images')[0],
             title=data['title'],
             price=data['price'],
             location=data['location'],
@@ -79,6 +80,10 @@ def createOffer(request):
             is_pet_friendly=True if data['is_pet_friendly'] == "true" else False,
             description=data['description']
         )
+        images = request.FILES.getlist('images')
+        for image in images:
+            HousingOfferImage.objects.create(housing_offer=offer, image=image)
+
 
         serializer = HousingOfferSerializer(offer, many=False)
         return Response(serializer.data)
@@ -113,15 +118,23 @@ def updateOffer(request, pk):
         print(e)
         return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
+
+
+
 @api_view(['POST'])
 def uploadImage(request):
-    data = request.data
+    try:
+        data = request.data
+        offer_id = data.get('offer_id')
+        offer = get_object_or_404(HousingOffer, _id=offer_id)
 
-    offer_id = data['offer_id']
-    offer = HousingOffer.objects.get(_id=offer_id)
+        images = request.FILES.getlist('images')
+        for image in images:
+            HousingOfferImage.objects.create(housing_offer=offer, image=image)
 
-    offer.image = request.FILES.get('image')
-    offer.save()
+        return Response('Images were uploaded successfully')
+    except Exception as e:
+        print(e)
+        return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
-    return Response('Image was uploaded')
 

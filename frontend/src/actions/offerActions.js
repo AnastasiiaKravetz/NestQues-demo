@@ -49,7 +49,7 @@ export const listOfferDetails = (id) => async (dispatch) => {
         dispatch({ type: OFFER_DETAILS_REQUEST })
 
         const { data } = await axios.get(`/api/housingoffers/${id}`)
-
+        console.log(data)
         dispatch({
             type: OFFER_DETAILS_SUCCESS,
             payload: data
@@ -65,7 +65,7 @@ export const listOfferDetails = (id) => async (dispatch) => {
     }
 }
 
-export const createOffer = (title, image, price, location, isFurnished, numberOfRooms, isPetFriendly, description) => async (dispatch, getState) => {
+export const createOffer = (title, images, price, location, isFurnished, numberOfRooms, isPetFriendly, description) => async (dispatch, getState) => {
     try {
         dispatch({ type: OFFER_CREATE_REQUEST });
 
@@ -82,7 +82,7 @@ export const createOffer = (title, image, price, location, isFurnished, numberOf
 
         const { data } = await axios.post(
             '/api/housingoffers/create/',
-            { title, image, price, location, isFurnished, numberOfRooms, isPetFriendly, description },
+            { title, images, price, location, isFurnished, numberOfRooms, isPetFriendly, description },
             config
         );
 
