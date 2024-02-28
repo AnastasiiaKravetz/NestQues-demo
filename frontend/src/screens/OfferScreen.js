@@ -42,6 +42,8 @@ function OfferScreen() {
             return;
         } 
         dispatch(createRequest({housing_offer_id: offer._id, user: userInfo._id, content}));
+        navigate(`/requests`);
+        window.location.reload();
         
         
     };
@@ -107,9 +109,11 @@ function OfferScreen() {
                                     onChange={(e) => setContent(e.target.value)}
                                 />
                             </Form.Group>
-                            <Button type='submit' variant='primary'>
-                                Submit
-                            </Button>
+                            <div className="text-center my-3"> 
+                                <Button type='submit' variant='primary'>
+                                    Submit
+                                </Button>
+                            </div>
                         </Form>
                     </Col>
                 </Row>

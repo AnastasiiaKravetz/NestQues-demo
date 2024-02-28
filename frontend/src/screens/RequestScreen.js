@@ -21,54 +21,55 @@ function RequestScreen() {
         if (window.confirm('Are you sure you want to delete this request?')) {
             dispatch(deleteMessagesByRequestId(id)); 
             dispatch(deleteRequestAction(id)); 
-            window.location.reload();
         }
     };
 
     return (
-        <div>
-            <Row className='align-items-center my-2'>
-                <Col>
-                    <h1 className="fs-2" >All Requests</h1>
-                </Col>
-            </Row>
-            
-            {loading ? (
-                <Loader />
-            ) : error ? (
-                <Message variant='danger'>{error}</Message>
-            ) : (
-                <div>
-                    <Table striped bordered hover responsive className='table-sm'>
-                        <thead>
-                            <tr>
-                                <th className="fs-4" style={{ color: '#485785' }}>Title</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(requests) && requests.map(request => (
-                                <tr key={request._id}>
-                                    <td className="fs-4" style={{ color: '#485785' }}>{request.housing_offer.title}</td>
-                                    <td className="text-end"> 
-                                        <div className="button-container">
-                                            <LinkContainer to={`/chat/${request._id}`}>
-                                                <Button variant='light' className='btn my-3'>
-                                                    <i className='fs-4'></i> Chat
-                                                </Button>
-                                            </LinkContainer>
-                                            <Button variant='danger' className='btn my-3' onClick={() => deleteHandler(request._id)}>
-                                                <i className='fs-4'></i> Delete
-                                            </Button>
-                                        </div>
-                                    </td>
+        <Row className='justify-content-center'>
+            <Col xs={12} md={10}>
+                <Row className='align-items-center my-2'>
+                    <Col>
+                        <h1 className="fs-2">All Requests</h1>
+                    </Col>
+                </Row>
+                
+                {loading ? (
+                    <Loader />
+                ) : error ? (
+                    <Message variant='danger'>{error}</Message>
+                ) : (
+                    <div>
+                        <Table striped bordered hover responsive className='table-sm'>
+                            <thead>
+                                <tr>
+                                    <th className="fs-4" style={{ color: '#485785' }}>Title</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                    <Paginate page={page} pages={pages} />
-                </div>
-            )}
-        </div>
+                            </thead>
+                            <tbody>
+                                {Array.isArray(requests) && requests.map(request => (
+                                    <tr key={request._id}>
+                                        <td className="fs-4" style={{ color: '#485785' }}>{request.housing_offer.title}</td>
+                                        <td className="text-center"> 
+                                            <div className="d-flex justify-content-center"> 
+                                                <LinkContainer to={`/chat/${request._id}`}>
+                                                    <Button variant='light' className='btn my-3'>
+                                                        Chat
+                                                    </Button>
+                                                </LinkContainer>
+                                                <Button variant='danger' className='btn my-3 mx-2' onClick={() => deleteHandler(request._id)}> {/* Add mx-2 for horizontal margin */}
+                                                    Delete
+                                                </Button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                        <Paginate page={page} pages={pages} />
+                    </div>
+                )}
+            </Col>
+        </Row>
     );
 }
 

@@ -58,7 +58,7 @@ function ProfileScreen({ history }) {
     }
     return (
         <Row>
-            <Col md={6}>
+            <Col md={12}>
                 <h2>User Profile</h2>
 
                 {message && <Message variant='danger'>{message}</Message>}
@@ -113,10 +113,12 @@ function ProfileScreen({ history }) {
                         >
                         </Form.Control>
                     </Form.Group>
-
-                    <Button className='my-2' type='submit' variant='primary'>
-                        Update
-                </Button>
+                    <div className="text-center my-3"> 
+                        <Button className='my-2' type='submit' variant='primary' >
+                            Update
+                        </Button>
+                    </div>
+                    
 
                 </Form>
             </Col>
