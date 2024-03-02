@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/housingoffers/', include('nestquest.urls.housingoffers_urls')),
+    path('', TemplateView.as_view(template_name='index.html')),
     path('api/users/', include('nestquest.urls.user_urls')),
     path('api/housingrequests/', include('nestquest.urls.housingrequests_urls')),
     path('api/messages/', include('nestquest.urls.messages_urls')),

@@ -8,7 +8,7 @@ class HousingOffer(models.Model):
     image = models.ImageField(null=True, blank=True,
                               default='/placeholder.jpg')
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=11, decimal_places=2)
     location = models.CharField(max_length=255)  
     number_of_rooms = models.PositiveSmallIntegerField()   
     is_furnished = models.BooleanField()    
@@ -29,7 +29,7 @@ class HousingRequest(models.Model):
 
 
     def __str__(self):
-        return f"Request from {self.user.username} "#for {self.housing_offer.title}
+        return f"Request from {self.user.username} "
 
 
 
@@ -44,7 +44,7 @@ class Message(models.Model):
         return f"Message from {self.user.username} at {self.created_at}"
     
 class HousingOfferImage(models.Model):
-    housing_offer = models.ForeignKey(HousingOffer, related_name='images', on_delete=models.CASCADE)
+    housing_offer = models.ForeignKey(HousingOffer, on_delete=models.CASCADE)
     image = models.ImageField()
 
     def __str__(self):
