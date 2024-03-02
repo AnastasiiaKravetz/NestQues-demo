@@ -124,7 +124,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'nestquest',
         'USER': 'postgres',
-        'PASSWORD': 'Krava010402', 
+        'PASSWORD': os.environ.get('DB_PASS'), 
         'HOST': 'nestquest-identifier.crockg6yihwo.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
@@ -189,8 +189,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 #AWS_QUERYSTRING_AUTH = False
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_ACCESS_KEY_ID ='AKIAQ3EGRDYHNIZ5BPPY'
-AWS_SECRET_ACCESS_KEY ='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'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEYS_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 AWS_STORAGE_BUCKET_NAME = 'nestquest-bucket'
 AWS_S3_REGION_NAME = 'eu-central-1'
